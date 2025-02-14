@@ -13,6 +13,7 @@ import {
     doc,
     setDoc,
     getDoc,
+    updateDoc,
 } from "firebase/firestore/lite";
 
 const db = getFirestore(app);
@@ -61,7 +62,7 @@ export async function getPerson(idDoc: string) {
 
     if (docSnap.exists()) {
         //console.log("Document data:", docSnap.data());
-        person = { ...docSnap.data() } as Person;
+        person = { ...docSnap.data(), id: docSnap.id } as Person;
     }
 
     //else {
@@ -71,4 +72,10 @@ export async function getPerson(idDoc: string) {
 
     console.log(">>> getPerson ", person);
     return person;
+}
+
+export async function editPerson(idDoc: string, person: Person) {
+    const docRef = doc(db, "person", idDoc);
+    person.password = '';
+    return await updateDoc(docRef, { ...person });
 }

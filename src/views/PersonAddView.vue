@@ -4,7 +4,7 @@
             id="formPersonAdd"
             class="bg-yellow container p-5"
             enctype="multipart/form-data"
-            @submit.prevent="add()"
+            @submit.prevent="sendData()"
         >
             <h1 class="text-center">Faça seu cadastro</h1>
             {{ person }}
@@ -23,9 +23,11 @@
                 label="E-mail"
                 message="Email invalido"
                 :required="true"
+                :disabled="person?.id"
             ></InputValue>
 
             <InputValue
+                v-if="!person?.id"
                 v-model="person.password"
                 type="password"
                 label="Senha"
@@ -34,6 +36,7 @@
             ></InputValue>
 
             <InputValue
+                v-if="!person?.id"
                 v-model="confPass"
                 type="password"
                 label="Confirmar Senha"
@@ -52,14 +55,18 @@
 
             <div class="my-3 form-group flex-row gap-2">
                 <button type="reset">Cancelar</button>
-                <button type="submit" id="submitForm">Enviar</button>
+                <button type="submit" id="submitForm">
+                  <Span v-if="person?.id">Editar</Span>
+                  <Span v-else>Cadastar</Span>
+                </button>
             </div>
         </form>
     </section>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import router from "@/router";
 import { Person } from "@/core/domain/Person";
 import { personService } from "@/core/service/person.service";
 import InputValue from "@/components/InputValue.vue";
@@ -67,8 +74,30 @@ import InputValue from "@/components/InputValue.vue";
 const confPass = ref<string>("");
 const person = ref<Person>(new Person());
 
-function add() {
-    personService.add(person.value);
+onMounted(() => {
+    const idRouter = router.currentRoute.value.params.id?.toString();
+    if (idRouter) {
+        personService.get(idRouter).then(res => {
+            if (res) {
+                person.value = res;
+            }
+        });
+    }
+});
+
+function sendData() {
+    if (person.value?.id) {
+        personService
+            .edit(person.value)
+            .then(() => {
+                alert("Editado");
+            })
+            .catch(() => {
+                alert("Error ao editar");
+            });
+    } else {
+        personService.add(person.value);
+    }
 }
 </script>
 

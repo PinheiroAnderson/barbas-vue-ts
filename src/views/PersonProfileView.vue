@@ -14,6 +14,14 @@
                 <br />{{ person?.email }}
             </p>
         </div>
+        <div>
+            <button
+                type="button"
+                @click="$router.push(`/person-edit/${person?.id}`)"
+            >
+                Editar
+            </button>
+        </div>
     </div>
 </template>
 
@@ -24,6 +32,7 @@ import { personService } from "@/core/service/person.service";
 import { Person } from "@/core/domain/Person";
 
 const person = ref<Person | undefined>();
+
 onMounted(() => {
     const idRouter = router.currentRoute.value.params.id.toString();
     personService.get(idRouter).then(res => {
