@@ -11,6 +11,7 @@
           <p>{{ service.descricao }}</p>
         </div>
       </a>
+      <RouterLink class="service" onclick="()" to="/service">test</RouterLink>
     </div>
   </div>
 </template>
@@ -20,6 +21,8 @@ import serviceData from "@/core/mock/service.json"
 import { ref } from "vue"
 
 const services = ref(serviceData)
+
+
 </script>
 
 <style scoped>

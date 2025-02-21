@@ -53,5 +53,6 @@ export function getLoginGoogle() {
 
 export function getLogoff() {
     return signOut(auth)
-      
+
 }
+

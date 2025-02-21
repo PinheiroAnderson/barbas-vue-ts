@@ -1,5 +1,6 @@
 [
     {
+        "id": 1,
         "nome":"Lavagem curta",
         "valor":13.00,
         "descricao":"Lavagem para cabelos curtos",
@@ -7,6 +8,7 @@
         "duracao":2
     },
     {
+        "id": 2,
         "nome":"Lavagem media",
         "valor":20.00,
         "descricao":"Lavagem para cabelos medios",
@@ -14,6 +16,7 @@
         "duracao":3.5
     },
     {
+        "id": 3,
         "nome":"Lavagem longa",
         "valor":40.00,
         "descricao":"Lavagem para cabelos logos",
